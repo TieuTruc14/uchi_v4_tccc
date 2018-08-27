@@ -1,0 +1,160 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition name="default" template="/WEB-INF/jsp/layout.default.jsp">
+        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+        <put-attribute name="leftpanel" value="/WEB-INF/jsp/leftpanel.jsp" />
+        <put-attribute name="page" value="/WEB-INF/jsp/blank.jsp" />
+    </definition>
+
+    <definition name="welcome" extends="default">
+        <put-attribute name="title" value="Phần mềm công chứng Uchi"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/welcome.jsp" />
+    </definition>
+    <definition name="system.error" extends="default">
+        <put-attribute name="page" value="/WEB-INF/jsp/error.jsp" />
+    </definition>
+    <definition name="404" extends="default">
+        <put-attribute name="title" value="Error- 404. Không thấy dữ liệu"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/404.jsp" />
+    </definition>
+    <definition name="403" extends="default">
+        <put-attribute name="title" value="Error-403. Không đủ quyền"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/403.jsp" />
+    </definition>
+
+    <!--SYSTEM-->
+    <!--User-->
+    <definition name="user.list" extends="default">
+        <put-attribute name="title" value="Danh sách người dùng"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/user/list.jsp" />
+    </definition>
+    <definition name="user.detail" extends="default">
+        <put-attribute name="title" value="Chi tiết người dùng"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/user/detail.jsp" />
+    </definition>
+    <definition name="user.edit" extends="default">
+        <put-attribute name="title" value="Sửa thông tin người dùng"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/user/edit.jsp" />
+    </definition>
+    <definition name="user.add" extends="default">
+        <put-attribute name="title" value="Thêm người dùng"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/user/add.jsp" />
+    </definition>
+    <definition name="user.reset.pass" extends="default">
+        <put-attribute name="title" value="Reset mật khẩu người dùng"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/user/reset.pass.jsp" />
+    </definition>
+    <definition name="user.change-pass" extends="default">
+        <put-attribute name="title" value="Đổi mật khẩu"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/user/change-password.jsp" />
+    </definition>
+
+    <!--Grant-->
+    <definition name="grant.list" extends="default">
+        <put-attribute name="title" value="Danh sách nhóm quyền"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/grant/list.jsp" />
+    </definition>
+    <definition name="grant.add" extends="default">
+        <put-attribute name="title" value="Thêm nhóm quyền"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/grant/add.jsp" />
+    </definition>
+    <definition name="grant.edit" extends="default">
+        <put-attribute name="title" value="Sửa nhóm quyền"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/grant/edit.jsp" />
+    </definition>
+    <definition name="grant.group" extends="default">
+        <put-attribute name="title" value="Phân quyền cho nhóm quyền"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/grant/grant-group.jsp" />
+    </definition>
+
+    <!--CATEGORY-->
+    <!--Manual-->
+    <definition name="manual.list" extends="default">
+        <put-attribute name="title" value="Danh sách tài liệu"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/manual/list.jsp"/>
+    </definition>
+    <definition name="manual.add" extends="default">
+        <put-attribute name="title" value="Thêm tài liệu"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/manual/add.jsp"/>
+    </definition>
+    <definition name="manual.edit" extends="default">
+        <put-attribute name="title" value="Sửa tài liệu"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/manual/edit.jsp"/>
+    </definition>
+    <definition name="manual.detail" extends="default">
+        <put-attribute name="title" value="Chi tiết tài liệu"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/manual/detail.jsp"/>
+    </definition>
+
+    <!--Contract-->
+    <definition name="contract.online.add" extends="default">
+        <put-attribute name="title" value="Thêm hợp đồng online"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/contract/online/add.jsp"/>
+    </definition>
+
+    <!--Announcement-->
+    <definition name="announcement.list" extends="default">
+        <put-attribute name="title" value="Danh sách thông báo"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/announcement/list.jsp"/>
+    </definition>
+    <definition name="announcement.add" extends="default">
+        <put-attribute name="title" value="Thêm thông báo"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/announcement/add.jsp"/>
+    </definition>
+    <definition name="announcement.edit" extends="default">
+        <put-attribute name="title" value="Sửa thông báo"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/announcement/edit.jsp"/>
+    </definition>
+    <definition name="announcement.detail" extends="default">
+        <put-attribute name="title" value="Chi tiết thông báo"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/announcement/detail.jsp"/>
+    </definition>
+    <!--ContractHistory-->
+    <definition name="contracthistory.list" extends="default">
+        <put-attribute name="title" value="Danh sách lịch sử thay đổi hợp đồng"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/contracthistory/list.jsp"/>
+    </definition>
+
+    <!--Bank-->
+    <definition name="bank.list" extends="default">
+        <put-attribute name="title" value="Danh sách ngân hàng"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/category/bank/list.jsp"/>
+    </definition>
+    <definition name="bank.detail" extends="default">
+        <put-attribute name="title" value="Thông tin ngân hàng" />
+        <put-attribute name="page" value="/WEB-INF/jsp/category/bank/detail.jsp"/>
+    </definition>
+
+    <!--Admin Config -->
+    <definition name="config.view" extends="default">
+        <put-attribute name="title" value="Thông tin cấu hình lưu trữ dữ liệu sao lưu" />
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/config/view.jsp"/>
+    </definition>
+    <definition name="config.edit" extends="default">
+        <put-attribute name="title" value="Cấu hình tham số sao lưu" />
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/config/edit.jsp"/>
+    </definition>
+    <definition name="config.view.init" extends="default">
+        <put-attribute name="title" value="Thông tin cấu hình lưu trữ dự liệu sao lưu khởi tạo"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/config/view.init.jsp"/>
+    </definition>
+    <definition name="config.init.edit" extends="default">
+        <put-attribute name="title" value="Thông tin cấu hình lưu trữ dữ liệu sao lưu cập nhật khởi tạo"/>
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/config/init.edit.jsp"/>
+    </definition>
+    <definition name="config.restore.view" extends="default">
+        <put-attribute name="title" value="Phục hồi dữ liệu" />
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/config/restore.view.jsp"/>
+    </definition>
+    <definition name="config.list.sql" extends="default">
+        <put-attribute name="title" value="Dach sach file sql lưu trữ" />
+        <put-attribute name="page" value="/WEB-INF/jsp/admin/config/list.sql.jsp"/>
+    </definition>
+
+
+
+
+</tiles-definitions>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN" "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+    <constant name="struts.custom.i18n.resources" value="/system,/message"></constant>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="true" />
+    <!--<constant name="strusertion.excludePattern" value="/assets/ckfinder/*" />-->
+    <!--strusertion.extension for suffix, if value="" will not suffusertion-->
+    <constant name="struts.action.extension" value="html"/>
+    <!--<constant name="struts.action.extension" value=",,"/>-->
+    <constant name="struts.mapper.action.prefix.enabled" value="true" />
+    <constant name="struts.ui.theme" value="simple" />
+
+    <include file="struts-default.xml" />
+    <!--DEFAULT-->
+
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <result-types>
+            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+        </result-types>
+        <!--<interceptors>-->
+            <!--<interceptor name="interceptorBasicAuthentication" class="beanBasicAuthenticationInterceptor" />-->
+        <!--</interceptors>-->
+        <default-interceptor-ref name="defaultStack"/>
+        <default-action-ref name="index" />
+        <action name="index" class="beanWelcomeAction" method="execute">
+            <!--<interceptor-ref name="defaultStack" />-->
+            <!--<interceptor-ref name="interceptorBasicAuthentication"/>-->
+            <result name="success" type="tiles">welcome</result>
+        </action>
+        <action name="login" class="beanLoginAction" method="execute">
+            <result name="success">/WEB-INF/jsp/login.jsp</result>
+        </action>
+        <action name="404" class="beanLoginAction" method="execute">
+            <result name="success" type="tiles">404</result>
+        </action>
+
+        <action name="send-pass" class="beanUserForgotPasswordAction" method="execute">
+            <result name="input">/WEB-INF/jsp/login.jsp</result>
+            <result name="success">/WEB-INF/jsp/login.jsp</result>
+        </action>
+    </package>
+    <!--JSON FOR PROJECT-->
+    <package name="jsonManual" namespace="/json/manual" extends="json-default">
+        <default-action-ref name="remove-file"/>
+        <action name="remove-file" class="beanManualRemoveFileUrlAction" method="execute">
+            <result  type="json">
+
+            </result>
+        </action>
+        <action name="list" class="beanUserListAction" method="execute">
+            <result  type="json">
+
+            </result>
+        </action>
+    </package>
+    <!--SYSTEM-->
+    <!--User-->
+    <package name="user" namespace="/system/user" extends="default">
+        <default-action-ref name="list"/>
+        <action name="list" class="beanUserListAction" method="execute">
+            <result name="success" type="tiles">user.list</result>
+        </action>
+
+        <action name="detail" class="beanUserDetailAction" method="execute">
+            <result name="success" type="tiles">user.detail</result>
+        </action>
+
+        <action name="edit" class="beanUserEditAction" method="execute">
+            <result name="input" type="tiles">user.edit</result>
+        </action>
+
+        <action name="edit-save" class="beanUserEditSaveAction" method="execute">
+            <interceptor-ref name="defaultStack" />
+
+            <result name="input" type="tiles">user.edit</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+
+        <action name="delete" class="beanUserDeleteAction" method="execute">
+            <result name="error" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+            <result name="success" type="redirectAction">list</result>
+        </action>
+
+        <action name="add">
+            <result type="tiles">user.add</result>
+        </action>
+
+        <action name="add-save" class="beanUserAddSaveAction" method="execute">
+            <result name="input" type="tiles">user.add</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+
+        <action name="reset-pass" class="beanUserResetPasswordAction" method="execute">
+            <result name="input" type="tiles">user.reset.pass</result>
+            <result name="success" type="tiles">user.reset.pass</result>
+        </action>
+        <action name="change-pass-save" class="beanUserResetPasswordAction" method="changePass">
+            <result name="input" type="tiles">user.change-pass</result>
+            <result name="success" type="redirectAction">
+                    <param name="actionName">list</param>
+                    <param name="message">${message}</param>
+            </result>
+            <result name="CHANGE_PASS" type="tiles">user.change-pass</result>
+        </action>
+        <action name="change-pass" class="beanUserResetPasswordAction" method="changePass">
+            <result name="input" type="tiles">user.change-pass</result>
+            <result name="success" type="tiles">user.change-pass</result>
+        </action>
+
+    </package>
+    <!--grant-->
+    <package name="grant" namespace="/system/grant" extends="default">
+        <default-action-ref name="list" />
+        <action name="add">
+            <result type="tiles">grant.add</result>
+        </action>
+        <action name="add-save" class="beanGroupAddSaveAction" method="execute">
+            <result name="input" type="tiles">grant.add</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+            <result name="404" type="tiles">404</result>
+            <result name="403" type="tiles">403</result>
+        </action>
+        <action name="list" class="beanGroupListAction" method="execute">
+            <result name="success" type="tiles">grant.list</result>
+        </action>
+        <action name="edit" class="beanGroupEditAction" method="execute">
+            <result name="success" type="tiles">grant.edit</result>
+            <result name="404" type="tiles">404</result>
+            <result name="403" type="tiles">403</result>
+        </action>
+        <action name="edit-save" class="beanGroupEditSaveAction" method="execute">
+            <result name="input" type="tiles">grant.edit</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+            <result name="404" type="tiles">404</result>
+            <result name="403" type="tiles">403</result>
+        </action>
+        <action name="grant-group" class="beanGrantGroupAction" method="execute">
+            <result name="success" type="tiles">grant.group</result>
+            <result name="404" type="tiles">404</result>
+            <result name="403" type="tiles">403</result>
+        </action>
+        <action name="grant-group-save" class="beanGrantGroupSaveAction" method="execute">
+            <result name="input" type="tiles">grant.group</result>
+            <result name="404" type="tiles">404</result>
+            <result name="403" type="tiles">403</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+
+    </package>
+
+    <!--Contract-->
+
+    <package name="contract" namespace="/contract" extends="default">
+        <!--<default-action-ref name="list" />-->
+        <action name="add">
+            <result type="tiles">contract.online.add</result>
+        </action>
+        <action name="add-save" class="beanContractOnlineAddSaveAction" method="execute">
+            <result name="input" type="tiles">contract.online.add</result>
+            <result name="success" type="tiles">contract.online.add</result>
+            <result name="404" type="tiles">404</result>
+            <result name="403" type="tiles">403</result>
+        </action>
+    </package>
+    <!--json for contract-->
+    <package name="jsonContractKind" namespace="/json/contractKind" extends="json-default">
+        <action name="list" class="beanContractKindListJson" method="execute">
+            <result  type="json"></result>
+        </action>
+    </package>
+    <package name="jsonContractTemplate" namespace="/json/contractTemplate" extends="json-default">
+        <action name="list" class="beanContractTemplateListJson" method="execute">
+            <result  type="json"></result>
+        </action>
+    </package>
+
+    <package name="jsonContract" namespace="/json/contract" extends="json-default">
+        <action name="get-contract-number" class="beanGetContractNumberJson" method="execute">
+            <result  type="json"></result>
+        </action>
+        <action name="add" class="beanContractAddJson" method="execute">
+            <result  type="json"></result>
+        </action>
+    </package>
+
+
+    <package name="jsonBank" namespace="/json/bank" extends="json-default">
+        <action name="list" class="beanBankListJson" method="execute">
+            <result  type="json"></result>
+        </action>
+    </package>
+    <package name="jsonUser" namespace="/json/user" extends="json-default">
+        <action name="get-by-position" class="beanGetUserByPosition" method="execute">
+            <result  type="json"></result>
+        </action>
+    </package>
+
+    <!--Category Manual-->
+    <package name="manual" namespace="/category/manual" extends="default">
+        <default-action-ref name="list" />
+        <action name="add" class="beanManualAddAction" method="execute">
+            <result name="success" type="tiles">manual.add</result>
+        </action>
+        <action name="add-save" class="beanManualAddSaveAction" method="execute">
+            <result name="input" type="tiles">manual.add</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="list" class="beanManualListAction" method="execute">
+            <result name="success" type="tiles">manual.list</result>
+        </action>
+        <action name="detail" class="beanManualDetailAction" method="execute">
+            <result name="success" type="tiles">manual.detail</result>
+        </action>
+        <action name="edit" class="beanManualEditAction" method="execute">
+            <result name="success" type="tiles">manual.edit</result>
+        </action>
+        <action name="edit-save" class="beanManualEditSaveAction" method="execute">
+            <result name="input" type="tiles">manual.edit</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="delete" class="beanManualDeleteAction" method="execute">
+            <result name="success" type="redirectAction">
+                <param name="actionName" >list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="download-file" class="beanManualDownloadFileAction" method="execute">
+            <result name="none"></result>
+        </action>
+    </package>
+
+    <!-- Category Bank -->
+    <package name="bank" namespace="/category/bank" extends="default">
+        <default-action-ref name="list" />
+        <action name="list" class="beanBankListAction" method="execute">
+            <result name="success" type="tiles">bank.list</result>
+        </action>
+        <action name="detail" class="beanBankDetailAction" method="execute">
+            <result name="success" type="tiles">bank.detail</result>
+        </action>
+    </package>
+
+    <!-- System Config -->
+    <!-- System Config -->
+    <package name="config" namespace="/system/config" extends="default">
+        <default-action-ref name="view" />
+        <action name="view" class="beanConfigViewAction" method="execute">
+            <result name="success" type="tiles">config.view</result>
+            <result name="successInit" type="tiles">config.view.init</result>
+        </action>
+
+        <action name="edit" class="beanConfigEditAction" method="execute">
+            <result name="success" type="tiles">config.edit</result>
+        </action>
+        <action name="init-edit" class="beanConfigInitEditAction" method="execute">
+            <result name="success" type="tiles">config.init.edit</result>
+        </action>
+        <action name="init-edit-save" class="beanConfigInitEditSaveAction" method="execute">
+            <result name="success" type="redirectAction">
+                <param name="actionName">view</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="edit-save" class="beanConfigEditSaveAction" method="execute">
+            <result name="success" type="redirectAction">
+                <param name="actionName" >view</param>
+                <param name="message">${message}</param>
+            </result>
+
+            <result name="input" type="redirectAction">
+                <param name="actionName">init-edit</param>
+                <param name="message">${message}</param>
+            </result>
+
+        </action>
+        <action name="back-up-now" class="beanConfigBackUpNowAction" method="execute">
+            <result name="success" type="redirectAction">
+                <param name="actionName">view</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="restore-view" class="beanConfigRestoreViewActon" method="execute">
+            <result name="success" type="tiles">config.restore.view</result>
+        </action>
+        <action name="restore" class="beanConfigRestoreAction" method="execute">
+            <result name="success" type="redirectAction">
+                <param name="actionName">view</param>
+                <param name="message">${message}</param>
+            </result>
+            <result name="error" type="redirectAction">
+                <param name="actionName">restore-view</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="list-sql" class="beanConfigListSqlAction" method="execute">
+            <result name="success" type="tiles">config.list.sql</result>
+        </action>
+
+
+    </package>
+
+
+    <!-- Announcement-->
+
+    <package name="announcement" namespace="/category/announcement" extends="default">
+        <default-action-ref name="list" />
+        <action name="add" class="beanAnnouncementAddAction" method="execute">
+            <result name="success" type="tiles">announcement.add</result>
+        </action>
+        <action name="add-save" class="beanAnnouncementAddSaveAction" method="execute">
+            <result name="input" type="tiles">announcement.add</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="list" class="beanAnnouncementListAction" method="execute">
+            <result name="success" type="tiles">announcement.list</result>
+        </action>
+        <action name="detail" class="beanAnnouncementDetailAction" method="execute">
+            <result name="success" type="tiles">announcement.detail</result>
+        </action>
+        <action name="edit" class="beanAnnouncementEditAction" method="execute">
+            <result name="success" type="tiles">announcement.edit</result>
+        </action>
+        <action name="edit-save" class="beanAnnouncementEditSaveAction" method="execute">
+            <result name="input" type="tiles">announcement.edit</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+        <action name="delete" class="beanAnnouncementDeleteAction" method="execute">
+            <result name="success" type="redirectAction">
+                <param name="actionName" >list</param>
+                <param name="message">${message}</param>
+            </result>
+        </action>
+    </package>
+    <package name="contracthistory" namespace="/category/contracthistory" extends="default">
+        <default-action-ref name="list" />
+        <action name="list" class="beanContractHistoryList" method="execute">
+            <result name="success" type="tiles">contracthistory.list</result>
+        </action>
+    </package>
+</struts>

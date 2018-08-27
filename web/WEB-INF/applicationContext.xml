@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:s="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <s:http pattern="/assets/**" security="none"/>
+    <s:http pattern="/login.html" security="none"/>
+
+    <s:http pattern="/rest/**" auto-config='true' use-expressions="true" create-session="stateless">
+        <s:intercept-url pattern="/rest/**" access="hasAnyRole('ROLE_USER')" />
+        <s:http-basic />
+    </s:http>
+
+    <s:http auto-config='false' use-expressions="true">
+        <s:intercept-url pattern="/**" access="isAuthenticated()" />
+        <s:form-login login-page="/login.html" default-target-url="/index.html" login-processing-url="/j_spring_security_check" always-use-default-target="true"
+                      username-parameter="username" password-parameter="password" authentication-success-handler-ref="beanCustomAuthenticationSuccessHandler"/>
+        <s:anonymous />
+
+        <s:logout  logout-url="/j_spring_security_logout" delete-cookies="true" invalidate-session="true" success-handler-ref="beanMyLogoutSuccessHandler"></s:logout>
+        <!--<s:logout logout-success-url="/" logout-url="/j_spring_security_logout" delete-cookies="true" invalidate-session="true" ></s:logout>-->
+        <s:csrf disabled="true"/>
+        <s:remember-me
+                token-validity-seconds="864000"
+                remember-me-parameter="remember-me"
+                remember-me-cookie="remember-me"
+                data-source-ref="dataSource" />
+    </s:http>
+    <!--<s:authentication-manager alias="authenticationManager">-->
+    <!--<s:authentication-provider user-service-ref="beanUchiUserDetailsService">-->
+    <!--<s:password-encoder ref="bcryptEncoder"/>-->
+    <!--</s:authentication-provider>-->
+    <!--</s:authentication-manager>-->
+
+    <!--<s:authentication-manager alias="authenticationManager">-->
+    <!--<s:authentication-provider ref="beanUserDetailUnSecurityService" />-->
+    <!--<s:authentication-provider user-service-ref="beanUchiUserDetailsService">-->
+    <!--<s:password-encoder ref="bcryptEncoder"/>-->
+    <!--</s:authentication-provider>-->
+    <!--</s:authentication-manager>-->
+
+
+    <s:authentication-manager><s:authentication-provider user-service-ref="beanUchiUserDetailsService" /></s:authentication-manager>
+
+    <bean id="beanMyLogoutSuccessHandler" class="com.osp.security.MyLogoutSuccessHandler" />
+    <bean id="beanUchiUserDetailsService" class="com.osp.security.UchiUserDetailsService" scope="singleton" />
+    <bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+    <bean id="beanCustomAuthenticationSuccessHandler" class="com.osp.security.MyAuthenticationSuccessHandler" />
+    <bean id="beanUserDetailUnSecurityService" class="com.osp.security.UserDetailUnSecurityService" scope="singleton" />
+    <!--<bean id="beanMyUsernamePasswordAuthenticationFilter" class="com.osp.security.MyUsernamePasswordAuthenticationFilter"  />-->
+
+
+    <import resource="uchi.xml"/>
+
+    <!--Util -->
+    <bean id="beanDaoUtil" class="com.osp.common.persitence.DaoUtil" scope="singleton" />
+    <bean id="beanHibernateUtil" class="com.osp.common.persitence.HibernateUtil" scope="singleton" />
+    <tx:annotation-driven />
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" scope="singleton">
+        <property name="dataSource" ref="dataSource" />
+        <property name="hibernateProperties"><ref bean="hibernateProperties" /></property>
+        <property name="packagesToScan" value="com.osp.model"></property>
+    </bean>
+    <bean id="hibernateProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean" scope="singleton">
+        <property name="properties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.query.substitutions">true 'T', false 'F'</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.jdbc.batch_size">50</prop>
+                <prop key="hibernate.connection.useUnicode">true</prop>
+                <prop key="hibernate.connection.charSet">utf8</prop>
+                <prop key="hibernate.connection.autocommit">true</prop>
+                <prop key="hibernate.connection.characterEncoding">utf8</prop>
+                <!--after_transaction or on_close-->
+                <prop key="hibernate.connection.release_mode">on_close</prop>
+                <!--<prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</prop>-->
+                <prop key="hibernate.c3p0.acquire_increment">1</prop>
+                <prop key="hibernate.c3p0.idle_test_period">1800</prop>
+                <prop key="hibernate.c3p0.max_size">100</prop>
+                <prop key="hibernate.c3p0.max_statements">50</prop>
+                <prop key="hibernate.c3p0.min_size">5</prop>
+                <prop key="hibernate.c3p0.timeout">1800</prop>
+                <prop key="hibernate.generate_statistics">false</prop>
+                <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+
+                <prop key="cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+                <prop key="cache.use_minimal_puts">false</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- DA T A  S O U R C E -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" scope="singleton">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="${mysql.url}" />
+        <property name="user" value="${mysql.username}" />
+        <property name="password" value="${mysql.password}" />
+        <property name="acquireIncrement" value="1" />
+        <property name="minPoolSize" value="3" />
+        <property name="maxPoolSize" value="10" />
+        <property name="maxIdleTime" value="3" />
+    </bean>
+
+     <!--CONFIG -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/config.properties</value>
+                <value>classpath:system.properties</value>
+            </list>
+
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+</beans>

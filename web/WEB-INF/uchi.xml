@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--Khu vuc bean DAO-->
+    <bean id="beanUserDao" class="com.osp.persistence.UserDao" scope="singleton" init-method="init" />
+    <bean id="beanCustomerDao" class="com.osp.persistence.CustomerDao" scope="singleton" init-method="init" />
+    <bean id="beanManualDao" class="com.osp.persistence.ManualDao" scope="singleton" init-method="init" />
+    <bean id="beanGrantDao" class="com.osp.persistence.GrantDao" scope="singleton" init-method="init" />
+    <bean id="beanText" class="com.osp.persistence.TextDao" scope="singleton" init-method="init" />
+    <bean id="beanAnnouncementDao" class="com.osp.persistence.AnnouncementDao" scope="singleton" init-method="init" />
+    <bean id="beanContractHistoryDao" class="com.osp.persistence.ContractHistoryDao" scope="singleton" init-method="init" />
+    <bean id="beanContractDao" class="com.osp.persistence.ContractDao" scope="singleton" init-method="init" />
+    <bean id="beanContractKindDao" class="com.osp.persistence.ContractKindDao" scope="singleton" init-method="init" />
+    <bean id="beanContractTemplateDao" class="com.osp.persistence.ContractTemplateDao" scope="singleton" init-method="init" />
+    <bean id="beanBankDao" class="com.osp.persistence.BankDao" scope="singleton" init-method="init" />
+    <!--Service-->
+    <bean id="beanMailUtil" class="com.osp.service.mail.MailUtil" scope="singleton" />
+
+    <!---->
+    <bean id="beanWelcomeAction" class="com.osp.web.WelcomeAction" scope="prototype" />
+    <bean id="beanLoginAction" class="com.osp.web.login.LoginAction" scope="prototype" />
+
+
+    <!--User-->
+    <bean id="beanUserListAction" class="com.osp.web.admin.user.UserListAction" scope="prototype" />
+    <bean id="beanUserAddAction" class="com.osp.web.admin.user.UserAddAction" scope="prototype" />
+    <bean id="beanUserAddSaveAction" class="com.osp.web.admin.user.UserAddSaveAction" scope="prototype" />
+    <bean id="beanUserDetailAction" class="com.osp.web.admin.user.UserDetailAction" scope="prototype" />
+    <bean id="beanUserEditAction" class="com.osp.web.admin.user.UserEditAction" scope="prototype" />
+    <bean id="beanUserEditSaveAction" class="com.osp.web.admin.user.UserEditSaveAction" scope="prototype" />
+    <bean id="beanUserResetPasswordAction" class="com.osp.web.admin.user.UserResetPasswordAction" scope="prototype" />
+    <bean id="beanUserForgotPasswordAction" class="com.osp.web.admin.user.UserForgotPasswordAction" scope="prototype" />
+    <bean id="beanUserDeleteAction" class="com.osp.web.admin.user.UserDeleteAction" scope="prototype" />
+
+    <bean id="beanGetUserByPosition" class="com.osp.web.admin.user.json.GetUserByPosition" scope="prototype" />
+
+    <!--Grant-->
+    <bean id="beanGroupListAction" class="com.osp.web.admin.grant.GroupListAction" scope="prototype" />
+    <bean id="beanGroupAddSaveAction" class="com.osp.web.admin.grant.GroupAddSaveAction" scope="prototype" />
+    <bean id="beanGroupEditAction" class="com.osp.web.admin.grant.GroupEditAction" scope="prototype" />
+    <bean id="beanGroupEditSaveAction" class="com.osp.web.admin.grant.GroupEditSaveAction" scope="prototype" />
+    <bean id="beanGrantGroupAction" class="com.osp.web.admin.grant.GrantGroupAction" scope="prototype" />
+    <bean id="beanGrantGroupSaveAction" class="com.osp.web.admin.grant.GrantGroupSaveAction" scope="prototype" />
+
+    <!--CONTRACT-->
+    <bean id="beanContractOnlineAddSaveAction" class="com.osp.web.contract.online.ContractOnlineAddSaveAction" scope="prototype" />
+    <bean id="beanGetContractById" class="com.osp.web.contract.online.GetContractById" scope="prototype" />
+    <bean id="beanContractAddJson" class="com.osp.web.contract.ContractAddJson" scope="prototype" />
+
+    <!--Contract Number-->
+    <bean id="beanGetContractNumberJson" class="com.osp.web.contract.GetContractNumberJson" scope="prototype" />
+    <!--CONTRACT KIND-->
+    <bean id="beanContractKindListJson" class="com.osp.web.category.template.contractKind.json.ContractKindListJson" scope="prototype" />
+
+    <!--Contract Template-->
+    <bean id="beanContractTemplateListJson" class="com.osp.web.category.template.contractTemplate.json.ContractTemplateListJson" scope="prototype" />
+
+
+    <!--Manual-->
+    <bean id="beanManualListAction" class="com.osp.web.category.manual.ManualListAction" scope="prototype"/>
+    <bean id="beanManualAddAction" class="com.osp.web.category.manual.ManualAddAction" scope="prototype"/>
+    <bean id="beanManualAddSaveAction" class="com.osp.web.category.manual.ManualAddSaveAction" scope="prototype"/>
+    <bean id="beanManualDetailAction" class="com.osp.web.category.manual.ManualDetailAction" scope="prototype"/>
+    <bean id="beanManualEditAction" class="com.osp.web.category.manual.ManualEditAction" scope="prototype"/>
+    <bean id="beanManualEditSaveAction" class="com.osp.web.category.manual.ManualEditSaveAction" scope="prototype"/>
+    <bean id="beanManualDeleteAction" class="com.osp.web.category.manual.ManualDeleteAction" scope="prototype"/>
+    <bean id="beanManualRemoveFileUrlAction" class="com.osp.web.category.manual.ManualRemoveFileUrlAction" scope="prototype"/>
+    <bean id="beanManualDownloadFileAction" class="com.osp.web.category.manual.ManualDownloadFileAction" scope="prototype" />
+
+    <!--Announcement Minh beo-->
+    <bean id="beanAnnouncementListAction" class="com.osp.web.category.announcement.AnnouncementListAction" scope="prototype"/>
+    <bean id="beanAnnouncementAddAction" class="com.osp.web.category.announcement.AnnouncementAddAction" scope="prototype"/>
+    <bean id="beanAnnouncementAddSaveAction" class="com.osp.web.category.announcement.AnnouncementAddSaveAction" scope="prototype"/>
+    <bean id="beanAnnouncementDetailAction" class="com.osp.web.category.announcement.AnnouncementDetailAction" scope="prototype"/>
+    <bean id="beanAnnouncementEditAction" class="com.osp.web.category.announcement.AnnouncementEditAction" scope="prototype"/>
+    <bean id="beanAnnouncementEditSaveAction" class="com.osp.web.category.announcement.AnnouncementEditSaveAction" scope="prototype"/>
+    <bean id="beanAnnouncementDeleteAction" class="com.osp.web.category.announcement.AnnouncementDeleteAction" scope="prototype"/>
+
+    <!--ContractHistory-->
+    <bean id="beanContractHistoryList" class="com.osp.web.category.contracthistory.ContractHistoryList" scope="prototype"/>
+
+    <!--Bank-->
+    <bean id="beanBankListAction" class="com.osp.web.category.bank.BankListAction" scope="prototype" />
+    <bean id="beanBankDetailAction" class="com.osp.web.category.bank.BankDetailAction" scope="prototype"/>
+
+    <bean id="beanBankListJson" class="com.osp.web.category.bank.json.BankListJson" scope="prototype"/>
+
+    <!-- Admin Config-->
+    <bean id="beanConfigViewAction" class="com.osp.web.admin.config.ConfigViewAction" scope="prototype" />
+    <bean id="beanConfigEditAction" class="com.osp.web.admin.config.ConfigEditAction" scope="prototype"/>
+    <bean id="beanConfigEditSaveAction" class="com.osp.web.admin.config.ConfigEditSaveAction" scope="prototype"/>
+    <bean id="beanConfigInitEditAction" class="com.osp.web.admin.config.ConfigInitEditAction" scope="prototype"/>
+    <bean id="beanConfigInitEditSaveAction" class="com.osp.web.admin.config.ConfigInitEditSaveAction" scope="prototype"/>
+    <bean id="beanConfigBackUpNowAction" class="com.osp.web.admin.config.ConfigBackUpNowAction" scope="prototype"/>
+    <bean id="beanConfigBackupDatabaseManager" class="com.osp.model.ConfigBackupDatabaseManager" scope="singleton">
+        <property name="configMySqlDumpFolder" value="${system.mysql.mysqldump.folder}" />
+        <property name="dateBackUp" value="${date.backup}"/>
+        <property name="configBackUpDatabaseFolder" value="${system.backup.database.folder}"/>
+        <property name="timeBackUp" value="${time.bacup}"/>
+        <property name="systemBackUpOs" value="${system.backup.os}"/>
+        <property name="systemBackUpHost" value="${system.backup.host}"/>
+        <property name="systemBackUpDatabase" value="${system.backup.database}"/>
+        <property name="systemBackUpUser" value="${system.backup.user}"/>
+        <property name="systemBackUpPass" value="${system.backup.pass}"/>
+        <property name="systemBackUpPort" value="${system.backup.port}" />
+
+    </bean>
+    <bean id="beanConfigRestoreViewActon" class="com.osp.web.admin.config.ConfigRestoreViewAction" scope="prototype"/>
+    <bean id="beanConfigRestoreAction" class="com.osp.web.admin.config.ConfigRestoreAction" scope="prototype"/>
+    <bean id="beanConfigListSqlAction" class="com.osp.web.admin.config.ConfigListSqlAction" scope="prototype"/>
+
+</beans>
